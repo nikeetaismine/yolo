@@ -1,3 +1,4 @@
+#BUILD STAGE
 # Use an official Node runtime as a parent image
 FROM node:14-slim AS build
 
@@ -13,6 +14,8 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
+
+#RUNTIME STAGE
 FROM alpine:3.16.7
 
 WORKDIR /app

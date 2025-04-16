@@ -12,9 +12,9 @@ services:
 
   #Builds the frontend Docker image and creates the frontend microservice
   brian-yolo-client:
-    image: brianbwire/brian-yolo-client:v1.0.0
-    build: ./client
     container_name: brian-yolo-client
+    image: brianbwire/brian-yolo-client:v1.0.1
+    build: ./client
     stdin_open: true
     tty: true
     ports:
@@ -22,40 +22,40 @@ services:
     depends_on: 
       - brian-yolo-backend
     networks:
-      - app-net
+      - yolo-net
 
   #Builds the backend Docker image and creates the backend microservice
   brian-yolo-backend:
-    image: brianbwire/brian-yolo-backend:v1.0.0
-    build: ./backend
     container_name: brian-yolo-backend
+    image: brianbwire/brian-yolo-backend:v1.0.1
+    build: ./backend
     stdin_open: true
     tty: true
     restart: always
     ports:
       - "5000:5000"
     depends_on: 
-      - app-ip-mongo
+      - yolo-ip-mongo
     networks:
-      - app-net
+      -yolo-net
 
   #Creates the database microservice
-  app-ip-mongo:
+  yolo-ip-mongo:
     image: mongo
-    container_name: app-mongo
+    container_name: yolo-mongo
     ports:
       - "27017:27017"
     networks:
-      - app-net
+      - yolo-net
     volumes:
       - type: volume
-        source: app-mongo-data
+        source: yolo-mongo-data
         target: /data/db
 
 #Creates the network infrastructure necessary for the containers to communicate with each other
 networks:
-  app-net:
-    name: app-net
+  yolo-net:
+    name: yolo-net
     driver: bridge
     attachable: true
     ipam:
@@ -65,5 +65,5 @@ networks:
 
 #Creates a Docker volume that persists all the data stored in the database
 volumes:
-  app-mongo-data:
+  yolo-mongo-data:
     driver: local
