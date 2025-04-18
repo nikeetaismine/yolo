@@ -31,17 +31,17 @@ services:
     build: ./backend
     stdin_open: true
     tty: true
-    restart: always
+    #restart: always
     ports:
       - "5000:5000"
     depends_on: 
       - yolo-ip-mongo
     networks:
-      -yolo-net
+      - yolo-net
 
   #Creates the database microservice
   yolo-ip-mongo:
-    image: mongo
+    image: mongo:latest
     container_name: yolo-mongo
     ports:
       - "27017:27017"
@@ -60,8 +60,8 @@ networks:
     attachable: true
     ipam:
       config:
-        - subnet: 172.20.0.0/16 
-          ip_range: 172.20.0.0/16 
+        - subnet: 172.20.0.0/24 
+          ip_range: 172.20.0.0/24 
 
 #Creates a Docker volume that persists all the data stored in the database
 volumes:
