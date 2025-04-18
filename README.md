@@ -12,4 +12,7 @@ Install the docker engine here:
 ![Alt text](image.png)
 
 ## How to run the app
-Use vagrant up --provison command
+Use 'docker compose build' command to build the containers
+
+Use 'docker compose up' to start the containers and launch the application.
+

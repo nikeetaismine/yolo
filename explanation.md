@@ -26,7 +26,7 @@
 
 1. **Stage 1: Build Stage**
 
-    - The `FROM node:14 AS build` line specifies the base image for the first stage. It uses the official Node.js image (version 14), which includes all the tools necessary for building and running Node.js applications. The AS build syntax names this stage "build" for later reference.
+    - The `FROM node:14-slim AS build` line specifies the base image for the first stage, which is also optimized for smaller size while still including the necessary tools to build and run Node.js applications. The AS build syntax names this stage "build" for later reference.
     - The `WORKDIR /usr/src/app` command sets the working directory inside the container to /usr/src/app. All subsequent commands in this stage will be executed relative to this directory.
     - The `COPY package*.json ./` command copies the package.json and package-lock.json files from the host machine to the container. These files are essential for installing the application's dependencies.
     - The `RUN npm install` command installs the dependencies listed in package.json. This ensures that the application has all the required libraries to function.
@@ -73,14 +73,14 @@ b. **Backend Service (`brian-yolo-backend`)**
   - `image`: Specifies the Docker image `brianbwire/brian-yolo-backend:v1.0.1`.
   - `build`: Points to the backend directory, which contains the Dockerfile for building the backend image.
   - `ports`: Maps port `5000` on the host to port `5000` in the container, making the backend accessible at `http://localhost:5000`.
-  - `restart`: Configures the container to always restart if it stops unexpectedly.
+  - `restart`: Configures the container to always restart if it stops unexpectedly. This line is commented out for dev testing purposes.
   - `depends_on`: Ensures the backend starts only after the MongoDB service (`yolo-ip-mongo`) is running.
   - `networks`: Connects the backend to the `yolo-net` network.
 
 c. **Database Service (`yolo-ip-mongo`)**
 - **Purpose**: Runs a MongoDB database as a microservice.
 - **Key Configurations**:
-  - `image`: Uses the official `mongo` image to create the database container.
+  - `image`: Uses the latest `mongo` image to create the database container. It is the smallest mongo image at the moment on docker hub.
   - `container_name`: Names the container `yolo-mongo`.
   - `ports`: Maps port `27017` on the host to port `27017` in the container, making the database accessible locally.
   - `volumes`: Mounts a persistent volume (`yolo-mongo-data`) to `/data/db` in the container, ensuring that database data persists across container restarts.
@@ -90,7 +90,7 @@ c. **Database Service (`yolo-ip-mongo`)**
 The `networks` section defines a custom bridge network named `yolo-net`:
 - **`driver`**: Specifies the `bridge` driver, which is the default for Docker networks.
 - **`attachable`**: Allows containers to dynamically connect to the network.
-- **`ipam`**: Configures IP address management for the network, specifying a subnet (`172.20.0.0/16`) and an IP range.
+- **`ipam`**: Configures IP address management for the network, specifying a subnet (`172.20.0.0/24`) and an IP range.
 
 This network ensures that all services can communicate with each other using container names as hostnames.
 
