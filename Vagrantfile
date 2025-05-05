@@ -88,14 +88,15 @@ Vagrant.configure("2") do |config|
 
     echo "Installing Ansible and community.docker collection..."
     sudo apt-get install -y python3 python3-pip
-    pip3 install --user ansible
-    export PATH=$HOME/.local/bin:$PATH
+    
+    # Install Ansible as the vagrant user
+    sudo -u vagrant -H bash -c 'pip3 install --user ansible'
 
-    # Make sure ansible is available in the current session
+    # Add .local/bin to vagrant user's PATH
     echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/vagrant/.bashrc
 
-    # Install Ansible collection
-    /home/vagrant/.local/bin/ansible-galaxy collection install community.docker
+    # Install Ansible collection as vagrant user
+    sudo -u vagrant -H bash -c '/home/vagrant/.local/bin/ansible-galaxy collection install community.docker'
   SHELL
 
 
