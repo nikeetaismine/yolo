@@ -85,6 +85,17 @@ Vagrant.configure("2") do |config|
     sudo usermod -aG docker vagrant
     sudo systemctl start docker
     sudo systemctl enable docker
+
+    echo "Installing Ansible and community.docker collection..."
+    sudo apt-get install -y python3 python3-pip
+    pip3 install --user ansible
+    export PATH=$HOME/.local/bin:$PATH
+
+    # Make sure ansible is available in the current session
+    echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/vagrant/.bashrc
+
+    # Install Ansible collection
+    /home/vagrant/.local/bin/ansible-galaxy collection install community.docker
   SHELL
 
 

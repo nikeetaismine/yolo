@@ -1,4 +1,9 @@
 ---
+- name: Create Docker network yolo-net if it doesn't exist
+  community.docker.docker_network:
+    name: yolo-net
+    state: present
+
 - name: Run MongoDB Container
   docker_container:
     name: yolo-mongo
