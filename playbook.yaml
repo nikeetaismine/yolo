@@ -1,0 +1,8 @@
+---
+- name: Ansible playbook 
+  hosts: all
+  become: true
+  roles:
+    - frontend-deployment
+    - setup-mongodb
+    - backend-deployment

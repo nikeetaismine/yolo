@@ -1,0 +1,4 @@
+---
+container_name: brian-yolo-backend
+network: yolo-net
+volume: yolo-mongo-data/app

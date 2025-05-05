@@ -1,0 +1,14 @@
+---
+- name: Run MongoDB Container
+  docker_container:
+    name: yolo-mongo
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./yolo-mongo-data:/data/db
+    networks:
+      - name: yolo-net
+  tags:
+    - database
+    - backend
