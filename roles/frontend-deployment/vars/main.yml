@@ -1,0 +1,4 @@
+---
+frontend_container_name: brian-yolo-client
+frontend_image: denisemwangi/yolo-client:v1.0.0
+frontend_network: yolo-net

@@ -1,0 +1,18 @@
+---
+- name: Pull Frontend image from Docker Hub
+  docker_image:
+    name: denisemwangi/yolo-client:v1.0.0
+    source: pull
+
+- name: Run Frontend Container
+  docker_container:
+    name: "{{ frontend_container_name }}"
+    image: "{{ frontend_image }}"
+    networks:
+      - name: "{{ frontend_network }}"
+    ports:
+      - "3000:3000"
+    restart_policy: unless-stopped
+    env:
+      REACT_APP_BACKEND_URL: "http://localhost:5000"
+  become: yes
