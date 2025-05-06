@@ -1,6 +1,6 @@
 #BUILD STAGE
 # Use an official Node runtime as a parent image
-FROM node:14-slim AS build
+FROM node:18-slim AS build
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -9,17 +9,15 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install application dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the application code to the container
 COPY . .
 
 #RUNTIME STAGE
-FROM alpine:3.16.7
+FROM node:18-alpine
 
 WORKDIR /app
-
-RUN apk update && apk add --no-cache nodejs npm
 
 COPY --from=build /usr/src/app /app
 

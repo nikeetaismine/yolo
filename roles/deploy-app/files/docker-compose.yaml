@@ -1,0 +1,55 @@
+
+version: "3.8"
+
+services:
+
+  #Frontend microservice
+  brian-yolo-client:
+    container_name: brian-yolo-client
+    image: denisemwangi/yolo-client:v1.0.0
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - brian-yolo-backend
+    networks:
+      - yolo-net
+    environment:
+      REACT_APP_BACKEND_URL: http://brian-yolo-backend:5000
+
+
+  #Backend microservice
+  brian-yolo-backend:
+    container_name: brian-yolo-backend
+    image: denisemwangi/yolo-backend:v1.0.0
+    ports:
+      - "5000:5000"
+    depends_on: 
+      - yolo-ip-mongo
+    networks:
+      - yolo-net
+    environment:
+      MONGODB_URI: mongodb://yolo-ip-mongo:27017/yolomy
+      PORT: 5000
+    restart: unless-stopped
+
+  #MongoDB service
+  yolo-ip-mongo:
+    image: mongo:latest
+    container_name: yolo-ip-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - yolo-mongo-data:/data/db
+    networks:
+      - yolo-net
+    
+
+#Shared Network
+networks:
+  yolo-net:
+    driver: bridge
+
+#Persistent MongoDB volume
+volumes:
+  yolo-mongo-data:
+  

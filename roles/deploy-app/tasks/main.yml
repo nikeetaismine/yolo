@@ -1,0 +1,24 @@
+---
+- name: Copy docker-compose file
+  ansible.builtin.copy:
+    src: docker-compose.yaml
+    dest: /home/vagrant/docker-compose.yaml
+    owner: vagrant
+    group: vagrant
+    mode: '0644'
+
+- name: Stop and remove containers (if any)
+  become: true
+  ansible.builtin.command:
+    cmd: docker compose -f /home/vagrant/docker-compose.yaml down
+  args:
+    chdir: /home/vagrant
+  ignore_errors: yes  # Prevent failure if containers don't exist
+
+
+- name: Run docker-compose to start the app
+  become: true
+  ansible.builtin.command:
+    cmd: docker compose -f /home/vagrant/docker-compose.yaml up -d
+  args:
+    chdir: /home/vagrant

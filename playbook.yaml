@@ -1,8 +1,6 @@
 ---
-- name: Ansible playbook 
+- name: Deploy YOLO App 
   hosts: all
   become: true
   roles:
-    - setup-mongodb
-    - backend-deployment
-    - frontend-deployment
+    - deploy-app

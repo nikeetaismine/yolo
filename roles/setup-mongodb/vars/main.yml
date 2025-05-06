@@ -1,4 +1,0 @@
----
-mongo_container_name: yolo_mongo
-mongo_network: yolo_net
-mongo_volume: yolo-mongo-data

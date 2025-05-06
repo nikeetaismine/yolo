@@ -86,6 +86,9 @@ Vagrant.configure("2") do |config|
     sudo systemctl start docker
     sudo systemctl enable docker
 
+    echo "Installing Docker Compose v2..."
+    sudo apt-get install -y docker-compose-plugin
+
     echo "Installing Ansible and community.docker collection..."
     sudo apt-get install -y python3 python3-pip
     
