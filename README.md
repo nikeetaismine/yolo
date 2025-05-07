@@ -24,7 +24,7 @@ Ensure the following tools are installed on your host machine:
 
 2. Start Everything with One Command:
 
-    vagrant up
+    vagrant up --provision
 
 This will:
 

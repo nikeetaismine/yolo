@@ -14,16 +14,21 @@ RUN npm ci
 # Copy the rest of the application code to the container
 COPY . .
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
+RUN npm run build
 
 #RUNTIME STAGE
 FROM node:18-alpine
 
 WORKDIR /app
 
-COPY --from=build /usr/src/app /app
+# Install a static file server
+RUN npm install -g serve
+
+COPY --from=build /usr/src/app/build /app
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Define the command to run your app
-CMD ["npm", "start"]
+CMD ["serve", "-s", ".", "-l", "3000"]

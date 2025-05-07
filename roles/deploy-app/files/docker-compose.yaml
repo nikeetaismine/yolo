@@ -6,7 +6,7 @@ services:
   #Frontend microservice
   brian-yolo-client:
     container_name: brian-yolo-client
-    image: denisemwangi/yolo-client:v1.0.0
+    image: denisemwangi/yolo-client:v1.0.1
     ports:
       - "3000:3000"
     depends_on: 

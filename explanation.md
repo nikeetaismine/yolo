@@ -36,7 +36,7 @@ Docker Compose	Defines and manages multi-container setup
 
   Run this from the root of the project:
 
-    vagrant up
+    vagrant up --provision
 
   This does everything for you:
 
